@@ -35,7 +35,6 @@ public class Ammunition {
     static float speed = 5f;
     float spawnRate = 3f;
     static final Vector2 ACCELERATION = new Vector2(0, speed);
-    //Vector2 direction;
    // static final Vector2 ACCELERATION = new Vector2(Gdx.input.getX() * speed, Gdx.input.getY() * speed);
 
     private float[] points = {0, 1, 0, img.getHeight()/2f, img.getWidth()/2f, img.getHeight(),
@@ -43,7 +42,6 @@ public class Ammunition {
 
     public Ammunition(Viewport v) {
         this.viewport = v;
-        //this.img = new Texture("bullet.png");
         this.bounds = new Polygon(points);
         this.bounds.setOrigin(img.getWidth()/2f, img.getHeight()/2f);
         init();
