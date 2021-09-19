@@ -1,8 +1,6 @@
 package com.kagane.laser.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
@@ -73,12 +71,6 @@ public class Background {
         renderer.dispose();
         //super.dispose();
     }
-
-    /*public void dispose(ShapeRenderer renderer) {
-        // Dispose of our ShapeRenderer
-        renderer.dispose();
-        //super.dispose();
-    }*/
 
     public void dispose() {
         // Dispose of our ShapeRenderer

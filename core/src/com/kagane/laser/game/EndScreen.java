@@ -30,8 +30,6 @@ public class EndScreen extends InputAdapter implements Screen {
     private FitViewport viewport;
     private BitmapFont scoreFont;
 
-    //Player p;
-
     static final float SET_SCREEN_SIZE = 480f;
     static final float buttonSize = 75.f;
 
@@ -42,7 +40,6 @@ public class EndScreen extends InputAdapter implements Screen {
     private String result;
     //The highest score achieved in a session. (Future update?)
     float higest;
-    //float higest = 0;
 
     /* Get results data from the game. */
     // Pass player and get the score from the game, or pass score as argument in game screen.
@@ -63,7 +60,6 @@ public class EndScreen extends InputAdapter implements Screen {
         viewport = new FitViewport(SET_SCREEN_SIZE, SET_SCREEN_SIZE);
         bg.bgStart(STAR_DENSITY);
 
-        //score = p.getScore();
         Gdx.input.setInputProcessor(this);
 
         scoreFont = new BitmapFont();

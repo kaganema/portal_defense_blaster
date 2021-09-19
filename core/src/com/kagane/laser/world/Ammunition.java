@@ -38,20 +38,8 @@ public class Ammunition {
     //Vector2 direction;
    // static final Vector2 ACCELERATION = new Vector2(Gdx.input.getX() * speed, Gdx.input.getY() * speed);
 
-//    private float[] points = {0, 0, 0, img.getHeight()/2, img.getWidth()/2, img.getHeight(),
-//            img.getWidth(), img.getHeight()/2, img.getWidth(), 0};
-
     private float[] points = {0, 1, 0, img.getHeight()/2f, img.getWidth()/2f, img.getHeight(),
             img.getWidth(), img.getHeight()/2f, img.getWidth(), 1};
-
-    //private float[] points = {0, 0, img.getWidth()/2, img.getHeight(), img.getWidth(), 0};
-
-    boolean soundSwitch;
-
-    /*public Ammunition(Vector2 rot) {
-        pos = new Vector2();
-        angle = rot;
-    }*/
 
     public Ammunition(Viewport v) {
         this.viewport = v;
@@ -97,8 +85,7 @@ public class Ammunition {
         pos = new Vector2(x, y);
         vel = new Vector2();
 
-        //Find ammo type
-        //ammo = FireType.valueOf(type);
+        // Find and get ammo type
         if (type != null) ammo = FireType.valueOf(type);
         else ammo = FireType.BULLET;
 
@@ -124,13 +111,12 @@ public class Ammunition {
         pos = new Vector2(x, y);
         vel = new Vector2();
 
-        //Find ammo type
-        //ammo = FireType.valueOf(type);
+        // Find and get ammo type
         if (type != null) ammo = FireType.valueOf(type);
         else ammo = FireType.BULLET;
 
         bounds = new Polygon(new float[] {0, 0, 0, ammo.img.getHeight(), ammo.img.getWidth(), 0});
-        //Position coordinates
+        //Position to fire from coordinates
         //pos.setAngle(r);
         r = MathUtils.degreesToRadians * r;
         vel.x = MathUtils.cos(r) * ammo.fireRate;
@@ -146,29 +132,6 @@ public class Ammunition {
         ammo.trigger.play();
         else ammo.trigger.play(0.0f);
     }
-
-    // Try this version as second option.
-    /*public Ammunition(float x, float y, float r) {
-        //Set position on offset.
-        this.deg = r;
-        pos = new Vector2(x, y);
-        bounds = new Polygon(points);
-        //this.bounds.setOrigin(x, y);
-        // Rotate to the orientation of the user's input.
-        this.bounds.setRotation(r);
-        // Set the position to the player's location.
-        //this.bounds.setPosition(x+offset, y+offset);
-        this.bounds.setPosition(pos.x, pos.y);
-        float dx = MathUtils.cos(r) * speed;
-        float dy = MathUtils.sin(r) * speed;
-        vel.x = MathUtils.cos(r) * speed;
-        vel.y = MathUtils.sin(r) * speed;
-    }*/
-
-    /*public Ammunition(Vector2 start, Vector2 dir, int rotation) {
-        this.pos = start;
-        //init(dir, rotation);
-    }*/
 
     public Ammunition(Vector2 start, Vector2 pos) {
         this.pos = start;
@@ -197,12 +160,6 @@ public class Ammunition {
         angle.rotate(rot);
     }
 
-    /*public Ammunition(float x, float y, float angle) {
-        //this.angle.rotate(angle);
-        this.pos = new Vector2(x, y);
-        this.angle.rotateAround(pos, angle);
-    }*/
-
     public Ammunition(float x, float y, float angle, Vector2 dest) {
         this.angle.rotate(angle);
         this.pos = new Vector2(x, y);
@@ -214,8 +171,6 @@ public class Ammunition {
     public Ammunition(Vector2 vec) {
         pos = vec;
     }
-
-    //public void init() {}
 
     void moveToOffset(Vector2 org) {
         //Option 1
@@ -244,8 +199,6 @@ public class Ammunition {
         bounds.getRotation();
         //Use setRotation instead of rotate
         // Dir: getScreenX/Y
-//        float posx = dir.x - org.x;
-//        float posy = dir.y - org.y;
         float posx = org.x - dir.x;
         float posy = org.y - dir.y;
         pos.set(posx, posy);
@@ -267,9 +220,6 @@ public class Ammunition {
         vel.mulAdd(new Vector2(0, ammo.fireRate), delta);
         pos.mulAdd(vel, delta);
         pos.clamp(0, 15);
-        //pos.mulAdd(vel, delta * vel.angle());
-        //pos.mulAdd(vel, delta);
-        //bounds.translate(vel.x, vel.y);
 
         //Method 2
         //float dx = (delta * vel.x) * speed;
@@ -292,11 +242,6 @@ public class Ammunition {
         bounds.translate(pos.x * vel.x, pos.y * vel.y);
         //bounds.translate(dx, dy);
     }
-
-    /*public void fireBullet(float x, float y) {
-        angle.angleRad(new Vector2(x, y));
-        bounds.getRotation();
-    }*/
 
     public void fireBullet(float x, float y) {
         float mouseAngle = 0.0f;
@@ -325,18 +270,12 @@ public class Ammunition {
     // For debug and visualisation
     public void render(ShapeRenderer renderer) {
         renderer.set(ShapeRenderer.ShapeType.Line);
-        //renderer.polygon(points);
         renderer.circle(bounds.getOriginX(), bounds.getOriginY(), 1f);
         renderer.polygon(bounds.getTransformedVertices());
-        //Gdx.input.getRotation();
     }
 
     // Draw the images
     public void render(SpriteBatch batch) {
-        //batch.draw(img, bounds.getX(), bounds.getY());
-//        batch.draw(img, bounds.getX(), bounds.getY(), bounds.getOriginX(), bounds.getOriginY(), img.getWidth(),
-//                img.getHeight(), 0.4f, 0.4f, bounds.getRotation(), 0, 0, img.getWidth(), img.getHeight(),
-//                false, false);
         batch.draw(ammo.img, bounds.getX(), bounds.getY(), bounds.getOriginX(), bounds.getOriginY(), ammo.img.getWidth(),
                 ammo.img.getHeight(), 0.4f, 0.4f, bounds.getRotation(), 0, 0, ammo.img.getWidth(), ammo.img.getHeight(),
                 false, false);

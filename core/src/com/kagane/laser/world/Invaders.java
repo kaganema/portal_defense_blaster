@@ -1,11 +1,9 @@
 package com.kagane.laser.world;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.*;
-//import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -15,7 +13,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Invaders {
     public static final String TAG = Invaders.class.getName();
-    //Array<Enemy> enemies;
     DelayedRemovalArray<Enemy> invaders;
     Viewport viewport;
 
@@ -55,7 +52,6 @@ public class Invaders {
     }
 
     public void init() {
-        //enemies = new Array<>(false, 10);
         invaders = new DelayedRemovalArray<>(false, 10);
     }
 
@@ -68,13 +64,8 @@ public class Invaders {
             Vector2 updatePosition = new Vector2(MathUtils.random() * viewport.getScreenWidth(), viewport.getScreenHeight()); //Start at top
             //Vector2 updatePosition = new Vector2(viewport.getWorldWidth(), MathUtils.random() * viewport.getWorldHeight()); //Start on right
             Enemy e = new Enemy(updatePosition, soundSet);
-            //enemies.add(e);
             invaders.add(e);
         }
-
-        /*for (Enemy enemy: enemies) {
-            enemy.update(delta);
-        }*/
 
         for (Enemy enemy: invaders) {
             enemy.update(delta);
@@ -99,9 +90,6 @@ public class Invaders {
         renderer.setColor(Color.RED);
 
         //Render each invading ship
-        /*for (Enemy e: enemies) {
-            e.render(renderer);
-        }*/
         for (Enemy e: invaders) {
             e.render(renderer);
         }

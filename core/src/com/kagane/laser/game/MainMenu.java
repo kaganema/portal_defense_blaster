@@ -12,11 +12,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-
-import java.util.Random;
 
 //import com.kagane.laser.world.*;
 
@@ -37,7 +34,6 @@ public class MainMenu extends InputAdapter implements Screen{
     FitViewport viewport;
 
     private static final float STAR_DENSITY = 0.03f;
-    //Array<Vector2> stars;
 
     Background bg = new Background();
 

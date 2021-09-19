@@ -20,7 +20,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.kagane.laser.world.*;
 
 /* The gameplay screen that loads all the content from world.
-* TODO: Extend InputProcessor (After doing pause menu) */
+*  */
 
 public class ScreenFace extends InputAdapter implements Screen{
     public static final String TAG = ScreenFace.class.getName();
@@ -38,6 +38,7 @@ public class ScreenFace extends InputAdapter implements Screen{
     Player player; //OrthographicCamera camera;
 
     String aType;
+
     //Add enemy slots to the game
     Invaders attackers;
 
@@ -49,15 +50,8 @@ public class ScreenFace extends InputAdapter implements Screen{
     BitmapFont font;
     Sound over;
 
-    Explosion explosion;
-
     private Vector2 pb = new Vector2(5, 480f - 10f);
 
-    //Bullet test
-    Ammunition bulletShape;
-
-    // Make for some background images
-    //Texture img;
 
     //Sound switch to pass to game elements
     boolean sTog;
@@ -91,14 +85,6 @@ public class ScreenFace extends InputAdapter implements Screen{
         player = new Player(viewport, score, life, sound);
         attackers = new Invaders(viewport, sound);
     }
-
-    // Delete this code before release.
-//    public ScreenFace(GameRun gb, String ammo, int score, int life) {
-//        this.g = gb;
-//        this.aType = ammo;
-//        viewport = new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-//        player = new Player(viewport, ammo, score, life);
-//    }
 
     public ScreenFace(GameRun gb, String ammo, int score, int life, int enScore) {
         this.g = gb;
@@ -139,18 +125,6 @@ public class ScreenFace extends InputAdapter implements Screen{
 
         font = new BitmapFont();
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        //font.getData().setScale(0.01f);
-
-
-        //Get the player
-        //player = new Player(viewport);
-        //player = new Player(viewport, type);
-        //player = new Player();
-        //camera.setToOrtho(false, viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2);
-        //camera.setToOrtho(false, viewport.getWorldWidth(), viewport.getWorldHeight());
-        //camera.setToOrtho(false, viewport.getWorldWidth()/2, viewport.getWorldHeight()/2); //;
-        //camera = new OrthographicCamera(10.f, 10.f);
-        // viewport = new ExtendViewport(10.f, 10.f, camera);
 
         //Create and set ship slots
         //attackers = new Invaders(viewport);
@@ -158,7 +132,6 @@ public class ScreenFace extends InputAdapter implements Screen{
 
         over = Gdx.audio.newSound(Gdx.files.internal("game-over-rev.mp3"));
 
-        //Gdx.input.setInputProcessor(this);
     }
 
     public void selectAmmo(String type) {
@@ -178,10 +151,11 @@ public class ScreenFace extends InputAdapter implements Screen{
             if (player.lifeCounter < 0) {
                 g.setScreen(new EndScreen(g, "Game Over!", player));
             }
+            // TODO: If player scores higher after time, player wins the game.
+            // TODO: After time limit, if invaders score higher, invaders win.
         }
         viewport.apply();
         renderer.setProjectionMatrix(viewport.getCamera().combined);
-        //bg.render(renderer);
         //renderer.begin(ShapeType.Filled);
         //Tex render
         //batch.draw(img, 0, 0);
@@ -206,8 +180,6 @@ public class ScreenFace extends InputAdapter implements Screen{
         font.draw(sBatch, "Player: " + player.getScore() + " | Invaders: " + attackers.invaded, vis.getWorldWidth() / 2f, vis.getScreenHeight() - 8f,
                 0, Align.center, false);
         sBatch.end();
-
-        //Put renderer at end if needed (however it didn't change the outcome.
     }
 
     @Override
@@ -227,11 +199,6 @@ public class ScreenFace extends InputAdapter implements Screen{
         // resize enemy ships
         attackers.init();
     }
-
-    /*
-    * Load pause menu when this button is hit. */
-    // TODO: Make a pause menu that will get invoked here.
-    //touchDown
 
     @Override
     public void pause() {
@@ -266,10 +233,11 @@ public class ScreenFace extends InputAdapter implements Screen{
         return sBatch;
     }
 
+    /*
+     * Load pause menu when this button is hit. */
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Vector2 touch = viewport.unproject(new Vector2(screenX, screenY));
         // Touch on pause button.
-        //if (touch.dst(pb) < pb.x * 4.5) g.setScreen(new GameOption(g, this, player.getScore(), player.lifeCounter));
         if (touch.dst(pb) < pb.x * 4.5) g.setScreen(new GameOption(g, aType, player.getScore(), player.lifeCounter, attackers.invaded, sTog));
         return true;
     }

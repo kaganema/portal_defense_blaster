@@ -11,7 +11,6 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Polygon;
-//import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.Gdx;
 
 public class Enemy {
@@ -24,12 +23,9 @@ public class Enemy {
     Texture img;
     private Sound zoom;
 
-    //sound toggle data
-
     Vector2 pos;
     Vector2 vel;
 
-    //Polygon tri;
     // Collision body of the ship.
     Polygon base;
 
@@ -37,8 +33,6 @@ public class Enemy {
     boolean destroyed;
 
     ParticleEffect explosion;
-    //ParticleEffect explosion = new ParticleEffect();
-    //ParticleEffectLoader pl = new ParticleEffectLoader(Gdx.files.internal("blast.p"));
     ParticleEffectPool effects;
     Explosion ex;
 
@@ -52,10 +46,10 @@ public class Enemy {
         //this.img = new Texture("enemy-rotated.png");
         this.img = new Texture("enemy-resized.png");
         this.zoom = Gdx.audio.newSound(Gdx.files.internal("enemy-ship.mp3"));
-        //this.base = new Polygon(new float[] {pos.x + 5.f, pos.y + 3.f, (pos.x - 5.f / 3.f) + 5.f, pos.y + 5.f, (pos.x + 5.f / 3.f) + 5.f, pos.y + 5.f});
-        //this.pos.rotate(MathUtils.random(50.f) * 100);
+
         //this.base = new Polygon(new float[] {0, 0, img.getWidth(), 0, img.getWidth()/2, img.getHeight()});
         this.base = new Polygon(new float[] {0, img.getHeight(), img.getWidth(), img.getHeight(), img.getWidth()/2, 0});
+        //this.pos.rotate(MathUtils.random(50.f) * 100);
         this.base.setPosition(pos.x, pos.y);
         this.destroyed = false;
 
@@ -65,8 +59,6 @@ public class Enemy {
         ex = new Explosion();
         explosion = new ParticleEffect();
         explosion.load(Gdx.files.internal("blast.p"), Gdx.files.internal(""));
-        //explosion.loadEmitters(Gdx.files.internal("blast.p"));
-        //explosion.setPosition(this.pos.x, this.pos.y);
         //explosion.setEmittersCleanUpBlendFunction(false);
         //effects = new ParticleEffectPool(explosion, 1, 3);
     }
@@ -75,7 +67,6 @@ public class Enemy {
         this.pos = pos;
         this.vel = new Vector2();
 
-        //this.img = new Texture("enemy-rotated.png");
         this.img = new Texture("enemy-resized.png");
         this.zoom = Gdx.audio.newSound(Gdx.files.internal("enemy-ship.mp3"));
         this.base = new Polygon(new float[] {0, img.getHeight(), img.getWidth(), img.getHeight(), img.getWidth()/2, 0});
@@ -98,14 +89,8 @@ public class Enemy {
 
         pos.mulAdd(vel, delta);
         base.translate(vel.x, vel.y);
-        //if (isDestroyed()) {
-//            explosion = new ParticleEffect();
-//            explosion.load(Gdx.files.internal("blast.p"), Gdx.files.internal(""));
-            explosion.setPosition(base.getX() + img.getWidth()/2,  base.getY());
-            explosion.update(delta);
-            //explosion.start();
-            //explosion.getEmitters().pop();
-        //}
+        explosion.setPosition(base.getX() + img.getWidth()/2,  base.getY());
+        explosion.update(delta);
         //ex.particleUpdateLocation(new Vector2(this.base.getX(), this.base.getY()), delta);
     }
 
@@ -138,14 +123,6 @@ public class Enemy {
         }
     }*/
 
-    //public void appLocal(ShapeRenderer ren, float x, float y) { }
-
-    //public float flip(float deg) {
-    //    return this.pos.angleRad(new Vector2(MathUtils.cosDeg(deg), 0));
-    //}
-
-    //public boolean isDestroyed() {}
-
     public void setDestroyed(boolean destroyed) {
         this.destroyed = destroyed;
     }
@@ -153,11 +130,6 @@ public class Enemy {
     public boolean isDestroyed() {
         return destroyed;
     }
-
-    /*public void explode(SpriteBatch batch) {
-        explosion.setPosition(this.pos.x, this.pos.y);
-        explosion.draw(batch);
-    }*/
 
     public void explode(SpriteBatch batch) {
         explosion.setPosition(this.pos.x, this.pos.y);
@@ -185,42 +157,14 @@ public class Enemy {
     }
 
     public void render(SpriteBatch spriteBatch) {
+        /* When the enemy ship gets destroyed, draw up the particles as the after effect of the explosion.
+        * They may still damage the player (fire is dangerous!), but it should not give more points to the invaders. */
         if (destroyed) {
             explosion.start();
             explosion.draw(spriteBatch);
             if (explosion.isComplete()) explosion.dispose();
         } else
         spriteBatch.draw(img, base.getX(), base.getY());
-        //explosion.start();
-        //explosion.findEmitter("flame");
-        //explosion.allowCompletion();
-        //if (destroyed) explosion.draw(spriteBatch, 1.0f);
-        /*if (destroyed) {
-            spriteBatch.begin();
-            explosion.draw(spriteBatch, 1.0f);
-            spriteBatch.end();
-        }*/
-        //explode(spriteBatch);
-        //if (destroyed) explode(spriteBatch);
-        //if (isDestroyed()) explode(spriteBatch);
-        //if (destroyed) explosion.draw(spriteBatch, Gdx.graphics.getDeltaTime());
-        //explosion.draw(spriteBatch, 1.0f);
-        //explosion.draw(spriteBatch, Gdx.graphics.getDeltaTime());
-        //if (destroyed) {
-            //explosion.setPosition(this.base.getX(), this.base.getY());
-            //explosion.draw(spriteBatch);
-        //}
-        //ex.activate(spriteBatch, destroyed);
-        //if (destroyed) ex.activate(spriteBatch, Gdx.graphics.getDeltaTime());
-        /*if (destroyed) {
-            //explosion.start();
-            explosion.draw(spriteBatch);
-            //explosion.dispose();
-        }*/
-        //explosion.start();
-        //explosion.draw(spriteBatch);
-        //explosion.allowCompletion();
-        //explosion.dispose();
     }
 
     public void afterEffect(SpriteBatch s) {

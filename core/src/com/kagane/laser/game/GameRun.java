@@ -4,19 +4,16 @@ import com.badlogic.gdx.Game;
 //import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class GameRun extends Game {
-	//SpriteBatch batch;
 
 	@Override
 	public void create () {
-		//batch = new SpriteBatch();
-		//setScreen(new ScreenFace());
 		setScreen(new MainMenu(this));
 	}
 
 	/*public void startGame() {
 		setScreen(new ScreenFace(this));
-	}
-*/
+	}*/
+
 	public void startGame() {
 		setScreen(new ScreenFace(this, 0, 5, false));
 	}
@@ -56,14 +53,4 @@ public class GameRun extends Game {
         setScreen(new MainMenu(this, playerScore));
     }
 
-	/*@Override
-	public void render () {
-		batch.begin();
-		batch.end();
-	}*/
-	
-	/*@Override
-	public void dispose () {
-		batch.dispose();
-	}*/
 }

@@ -163,7 +163,7 @@ public class GameOption extends InputAdapter implements Screen {
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
         optFont.setColor(Color.GOLDENROD);
-        // TODO: The fonts need to be aligned consistently across all screen sizes. Use glyph.
+        // The glyph assists the fonts to be aligned consistently across all screen sizes.
         final GlyphLayout glyph = new GlyphLayout(optFont, "options");
 //        optFont.draw(batch, "Options", viewport.getScreenWidth()/2f, viewport.getScreenHeight()- glyph.height - 2f, 0,
 //                Align.center, false);
@@ -221,15 +221,13 @@ public class GameOption extends InputAdapter implements Screen {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Vector2 touch = viewport.unproject(new Vector2(screenX, screenY));
         //if (touch.dst(sb) < width) gameRun.resumeGame(session);
-        //if (touch.dst(sb) < width * 2f) gameRun.setScreen(new ScreenFace(gameRun, "BULLET", score, life, enScore));
         if (touch.dst(sb) < width * 2f) gameRun.setScreen(new ScreenFace(gameRun, "BULLET", score, life, enScore, isOn()));
         else if (touch.dst(sr) < width * 4.3f) gameRun.setScreen(new ScreenFace(gameRun, "ROCKET", score, life, enScore, isOn()));
         else if (touch.dst(sl) < width * 2.2f) gameRun.setScreen(new ScreenFace(gameRun, "LASER", score, life, enScore, isOn()));
-//        if (touch.dst(sb) < width) session.selectAmmo("BULLET"); //gameRun.resumeGame(session);
-//        else if (touch.dst(sr) < width) session.selectAmmo("ROCKET");
-//        else if (touch.dst(sl) < width) session.selectAmmo("LASER");
+
         if (touch.dst(play) < width) gameRun.setScreen(new MainMenu(gameRun, score, isOn())); //gameRun.resumeGame(session);
         if (touch.dst(quit) < width * 10f) gameRun.setScreen(new MainMenu(gameRun, isOn()));
+
         // Enable sound
         if (touch.dst(snb) < width * 6.82f) {
             if (soundswitch) setSoundswitch(false);

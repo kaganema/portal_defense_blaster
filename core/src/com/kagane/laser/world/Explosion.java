@@ -53,17 +53,7 @@ public class Explosion {
     }
 
     public void activate(SpriteBatch batch) {
-        //if (o == null)
         explosion.draw(batch);
-        /*for (int o=efx.size-1; o>=0; --o){
-            ParticleEffectPool.PooledEffect e = efx.get(o);
-            e.draw(batch);
-            explosion.draw(batch);
-            if (e.isComplete()){
-                e.free();
-                efx.removeIndex(o);
-            }
-        }*/
         for (int i=particles.size-1; i>=0; --i){
             ParticleEffect p = particles.get(i);
             p.draw(batch);
@@ -76,26 +66,11 @@ public class Explosion {
     }
 
     public void activate(SpriteBatch batch, float del) {
-        //if (o == null)
         explosion.draw(batch, del);
         //actor.draw(batch, 1.0f);
     }
 
     public void activate(SpriteBatch batch, boolean dest) {
-        //if (o == null)
-//        if (dest)
-//        explosion.draw(batch);
-        /*for (int o=efx.size-1; o>=0; --o){
-            ParticleEffectPool.PooledEffect e = efx.get(o);
-            if (dest){
-                e.draw(batch);
-                explosion.draw(batch);
-                if (e.isComplete()){
-                    e.free();
-                    efx.removeIndex(o);
-                }
-            }
-        }*/
         for (int o=particles.size-1; o>=0; --o){
             ParticleEffect e = particles.get(o);
             if (dest){
@@ -111,12 +86,6 @@ public class Explosion {
     }
 
     public void end() {
-        //if (explosion.isComplete()) explosion.dispose();
-        /*if (explosion.isComplete()){
-            //part.free();
-            explosion.dispose();
-            efx.clear();
-        }*/
         if (explosion.isComplete()){
             //part.free();
             explosion.dispose();
