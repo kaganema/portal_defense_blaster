@@ -1,0 +1,97 @@
+//Class: Invaders
+//Method: update: delta
+- After creating updated position. Pupose: Random spawn off-screen
+    /*if (MathUtils.random(100) < -1) {
+                e.setY(viewport.getWorldHeight());
+                //e.flip(MathUtils.cos(MathUtils.PI));
+                //e.pos.x = MathUtils.random() == 0 ? 0 : viewport.getWorldWidth();
+                e.pos.rotate(180);
+            }else {
+                e.setY(viewport.getWorldHeight());
+                //e.pos.rotate(180);
+            }*/
+            //e.setRot(updatePosition);
+//Class: Invaders
+- Purpose: Random spawn off-screen
+    /*public Vector2 setPos(float x, float y) {
+
+        return (x <= 0 ? new Vector2(0, y * viewport.getWorldHeight()) : (y <= 0 ? new Vector2(x * viewport.getWorldWidth(), 0)
+                : new Vector2(x * viewport.getWorldWidth(), viewport.getWorldHeight())));
+    }*/
+
+//Class: Invaders
+- Render/Update ships.
+/*for (Enemy e: enemies) {
+            e.render(renderer);
+        }*/
+
+//Class: Player
+- Used to set angle of bullet from player.
+//FAIL!
+            bl = new Ammunition(pos.x, pos.y, MathUtils.cos(Gdx.input.getX() - bounds.x) *
+                    MathUtils.sin(Gdx.input.getY() - bounds.y));
+
+
+//Class: Player
+- Old bullet initialisation
+    //bl = new Ammunition(pos.x, pos.y, (Gdx.input.getX() - bounds.x) + (Gdx.input.getY() - bounds.y));
+    //bl = new Ammunition(pos.x, pos.y);
+- Update enemy motion (was called only when the player would touch screen)
+/*for (Ammunition bullet: ammo) {
+                bullet.update(delta);
+            }
+            ammo.begin();
+            for (int i=0; i<ammo.size; i++){
+                //ammo.get(i).update(delta);
+                if ((ammo.get(i).pos.x < 0 || ammo.get(i).pos.y < 0) ||
+                        (ammo.get(i).pos.x > viewport.getWorldWidth() || ammo.get(i).pos.y > viewport.getWorldHeight())){
+                    ammo.removeIndex(i);
+                }
+            }
+            ammo.end();*/
+//bl.update(delta);
+
+//DO NOT DO THIS METHOD
+    public void enemyHit (Invaders e, Polygon t, DelayedRemovalArray pr, Polygon p) {
+        //boolean hit = false;
+        DelayedRemovalArray dr = e.invaders;
+        dr.begin();
+        for (int a=0; a<dr.size; a++){
+            if (Intersector.overlapConvexPolygons(t, p)){
+                dr.removeIndex(a);
+            }
+        }
+        dr.end();
+        pr.begin();
+        for (int i=0; i<ammo.size; i++){
+            //ammo.get(i).update(delta);
+            if (Intersector.overlapConvexPolygons(t, p)){
+                ammo.removeIndex(i);
+
+            }
+        }
+        dr.end();
+    }
+
+
+//Class: Enemy
+- Var: private instance of the vertices array.
+//private float [] coords = {pos.x + 5, pos.y + 3, (pos.x - 5 / 3) + 5, pos.y + 5, (pos.x + 5 / 3) + 5, pos.y + 5};
+
+- Method: Render the shape outline and the image (SpriteBatch)
+/*public void render(ShapeRenderer renderer, SpriteBatch spriteBatch) {
+        spriteBatch.draw(img, base.getX(), base.getY());
+        renderer.polygon(new float[] {pos.x + 5.f, pos.y + 3.f, (pos.x - 5.f / 3.f) + 5.f, pos.y + 5.f, (pos.x + 5.f / 3.f) + 5, pos.y + 5.f});
+  }*/
+- Method: create vertices and add them to the polygon (already arranged in the constructor) (placed before update())
+/*public void vertPositions(Polygon pl) {
+        coords = new float [] {pos.x + 5, pos.y + 3, (pos.x - 5 / 3) + 5, pos.y + 5, (pos.x + 5 / 3) + 5, pos.y + 5};
+        pl.setVertices(coords);
+  }*/
+
+//Class: Ammunition
+- Purpose: Translate in the direction of the touched area. Result: Needs to be fixed.
+bounds.translate(pos.x + Gdx.input.getDeltaX(), pos.y + Gdx.input.getDeltaY());
+
+To-Dos:
+- Search "libgdx get touch coordinates"
