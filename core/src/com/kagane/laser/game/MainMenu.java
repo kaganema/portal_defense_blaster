@@ -15,8 +15,6 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
-//import com.kagane.laser.world.*;
-
 /*
 * Main menu class has the following:
 * Buttons to play the game and set sound.
@@ -37,35 +35,33 @@ public class MainMenu extends InputAdapter implements Screen{
 
     Background bg = new Background();
 
-    BitmapFont menuFont;
-    static final float buttonSize = 75.f;
+    private BitmapFont menuFont;
+    private static final float buttonSize = 75.f;
     static final float titleFont = 90.f;
     static final Vector2 stb = new Vector2(480/3f, 480/2f);
     static final Vector2 optb = new Vector2(480/3f, 480/3f);
     static final float SET_SCREEN_SIZE = 480f;
-    float startPos;
-    float optsPos;
     int currentScore;
     int highScore;
     Vector2 soundb;
     boolean stog;
 
-    public MainMenu(GameRun game) {
+    MainMenu(GameRun game) {
         this.game = game;
     }
 
     /* Back to main menu */
-    public MainMenu(GameRun game, int sc) {
+    MainMenu(GameRun game, int sc) {
         this.game = game;
         this.currentScore = sc;
     }
 
-    public MainMenu(GameRun game, boolean sound) {
+    MainMenu(GameRun game, boolean sound) {
         this.game = game;
         this.stog = sound;
     }
 
-    public MainMenu(GameRun game, int sc, boolean sound) {
+    MainMenu(GameRun game, int sc, boolean sound) {
         this.game = game;
         this.currentScore = sc;
         this.stog = sound;
@@ -75,10 +71,7 @@ public class MainMenu extends InputAdapter implements Screen{
         renderer = new ShapeRenderer();
         batch = new SpriteBatch();
 
-
         bg.bgStart(STAR_DENSITY);
-        //TODO: Edit this part later
-        //viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         viewport = new FitViewport(SET_SCREEN_SIZE, SET_SCREEN_SIZE);
         Gdx.input.setInputProcessor(this);
 
@@ -123,8 +116,6 @@ public class MainMenu extends InputAdapter implements Screen{
         // Highest score
         // Start button
         final GlyphLayout opt1 = new GlyphLayout(menuFont, "Start");
-        //menuFont.draw(batch, "Start", stb.x + (opt1.width/2), stb.y + (opt1.height+2),
-        //        0, Align.center, false);
         menuFont.draw(batch, "Start", stb.x + (opt1.width/2), stb.y + (opt1.height+2));
         // Options
         menuFont.draw(batch, "Options", optb.x + (opt1.width/2), optb.y + (opt1.height));
@@ -151,7 +142,6 @@ public class MainMenu extends InputAdapter implements Screen{
     public void hide() {
         batch.dispose();
         menuFont.dispose();
-        //bg.dispose(renderer);
         renderer.dispose();
     }
 

@@ -39,7 +39,6 @@ public class Enemy {
     public Enemy(Vector2 pos) {
         this.pos = pos;
         this.vel = new Vector2();
-        //invaded = 0;
         //The coordinates will be the same as the ones to the shape drawing. {x1,y1,x2,y2,x3,y3}
         //this.base.setVertices(new float [] {pos.x + 5, pos.y + 3, (pos.x - 5 / 3) + 5, pos.y + 5, (pos.x + 5 / 3) + 5, pos.y + 5});
 
@@ -47,7 +46,6 @@ public class Enemy {
         this.img = new Texture("enemy-resized.png");
         this.zoom = Gdx.audio.newSound(Gdx.files.internal("enemy-ship.mp3"));
 
-        //this.base = new Polygon(new float[] {0, 0, img.getWidth(), 0, img.getWidth()/2, img.getHeight()});
         this.base = new Polygon(new float[] {0, img.getHeight(), img.getWidth(), img.getHeight(), img.getWidth()/2, 0});
         //this.pos.rotate(MathUtils.random(50.f) * 100);
         this.base.setPosition(pos.x, pos.y);
@@ -91,7 +89,6 @@ public class Enemy {
         base.translate(vel.x, vel.y);
         explosion.setPosition(base.getX() + img.getWidth()/2,  base.getY());
         explosion.update(delta);
-        //ex.particleUpdateLocation(new Vector2(this.base.getX(), this.base.getY()), delta);
     }
 
     /*
@@ -131,16 +128,6 @@ public class Enemy {
         return destroyed;
     }
 
-    public void explode(SpriteBatch batch) {
-        explosion.setPosition(this.pos.x, this.pos.y);
-        explosion.draw(batch);
-        destroyed = true;
-    }
-
-    public void explode() {
-        explosion.setPosition(this.pos.x, this.pos.y);
-        destroyed = true;
-    }
 
     public void render(ShapeRenderer renderer) {
         renderer.set(ShapeRenderer.ShapeType.Filled);
@@ -148,12 +135,6 @@ public class Enemy {
         //renderer.line(pos.x + 1, pos.y + 1, (pos.x - 5/2) + 1, (pos.y + 5) - 1);
         //renderer.polygon(coords);
         //renderer.polygon(new float[] {pos.x + 5.f, pos.y + 3.f, (pos.x - 5.f / 3.f) + 5.f, pos.y + 5.f, (pos.x + 5.f / 3.f) + 5, pos.y + 5.f});
-
-        //Triangle with highest point facing up
-        //renderer.polygon(new float[] {0, 0, img.getWidth(), 0, img.getWidth()/2, img.getHeight()});
-
-        //Triangle with highest point facing down.
-        //renderer.polygon(new float[] {0, img.getHeight(), img.getWidth(), img.getHeight(), img.getWidth()/2, 0});
     }
 
     public void render(SpriteBatch spriteBatch) {

@@ -1,12 +1,17 @@
 package com.kagane.laser.world;
 
+/**
+ * The player class with properties of controls, collisions, rendering, defense point, and scores.
+ * The player can fire bullets.
+ * @author Emir Atik (kaganema)
+ * @version 1.0
+ * @since 1.0 2021-09-10 */
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.Input.*;
-//import com.badlogic.gdx.input.*;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.Texture;
@@ -15,14 +20,12 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.audio.Sound;
-import com.kagane.laser.game.ScreenFace;
 //import com.badlogic.gdx.InputProcessor;
 //import com.badlogic.gdx.input.GestureDetector;
 
 public class Player {
     public static final String TAG = Player.class.getName();
     private static final Color PLAYER_COLOUR = Color.WHITE; //Subject to change
-    private static final Color PLAYER_STROKE = Color.BLACK; //Subject to change
     private static float Speed = 150.f;
     private static final float MAX_SPEED = 500.f;
     private static final float radius = 0.7f;
@@ -31,15 +34,15 @@ public class Player {
     long lastTime;
 
     Viewport viewport;
-    Vector2 pos;
+    private Vector2 pos;
     Circle bounds;
     SpriteBatch batch;
-    Texture img;
+    private Texture img;
     Texture defense;
     Rectangle zone;
     Ammunition bl;
-    DelayedRemovalArray<Ammunition> ammo;
-    Sprite actor;
+    private DelayedRemovalArray<Ammunition> ammo;
+    private Sprite actor;
     //GestureDetector gest;
     public int lifeCounter;
     String ammunition;
@@ -48,13 +51,11 @@ public class Player {
     private int score;
     //Rotate any sprite (Stackoverflow.com)
     //private float count =360.0f;
-    //int lifeCounter;
     boolean fire;
     boolean ticked;
-    // Set array of bullets to be fired here.
 
     // Explosion data
-    Sound click;
+    private Sound click;
     boolean soundToggle;
 
     public Player(Viewport viewport) {
@@ -119,14 +120,9 @@ public class Player {
         init();
     }
 
-
-    public Player(Viewport viewport, Vector2 vec) {
-        this.viewport = viewport;
-        this.pos = vec;
-        init(vec);
-    }
-
-
+    /*
+    * The features to start or restart when the game is started or resumed.
+    * Anything that is more constant appear here. */
     public void init() {
         // We want this to be in the middle of the level regardless of the platform.
         img = new Texture("ufo-resized.png");
@@ -145,11 +141,8 @@ public class Player {
         click = Gdx.audio.newSound(Gdx.files.internal("popped-soft.mp3"));
     }
 
-    public void init(Vector2 vec) {
-        // We want this to be in the middle of the level regardless of the platform.
-        pos = new Vector2(vec.x, vec.y);
-    }
-
+    /*
+    * Player controls and fire movements. Some parts are still in debate of being used. */
     public void update(float delta) {
         ticked = fire;
         if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
@@ -187,13 +180,8 @@ public class Player {
             bl = new Ammunition(pos.x, pos.y, actor.getRotation(), ammunition, soundToggle);
             /*bl = new Ammunition(pos.x, pos.y, MathUtils.atan2(Gdx.input.getY() - actor.getY(),
                     Gdx.input.getX() - actor.getX()) * (180/MathUtils.PI2))*///;
-            //viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
-            //viewport.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
             ammo.add(bl);
             tick+=0.2;
-            //bl = new Ammunition(new Vector2(Gdx.input.getX()-bounds.x, Gdx.input.getY()-bounds.y),
-            //       new Vector2(Gdx.input.getX(), Gdx.input.getY()), Gdx.input.getAzimuth() || Gdx.input.getRotation());
-            //viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
         }
         for (Ammunition bullet: ammo) {
             bullet.update(delta);
@@ -238,7 +226,9 @@ public class Player {
     //public void configureB() {}
 
 
-    public void screenBounds() {
+    /*
+    * Don't move off screen */
+    private void screenBounds() {
 //        if (pos.x - radius < -viewport.getWorldWidth()){
 //            pos.x = radius;
 //        }
@@ -263,6 +253,12 @@ public class Player {
     * Uses Intersect class from math library to get the edges of the enemy for checking hits.
     * This will help:
     * https://www.gamedevelopment.blog/collision-detection-circles-rectangles-and-polygons/ */
+    /**
+     * Checks if the enemy edges cross over with the player's. This involves a lot more writing due to the complexity of
+     * checking if a circle or polygon edge/corner are crossing over.
+     * @param p shape of enemy
+     * @param circle shape of the player.
+     * @return whether the player was hit */
     private boolean enemyCross(Polygon p, Circle circle) {
         final float[] coords = p.getTransformedVertices();
         final int setTotal = coords.length;
@@ -278,6 +274,10 @@ public class Player {
         return collect;
     }
 
+    /**
+     * Checks if the weapon has effectively hit an enemy.
+     * Activate score and destroy enemy as threat if it does.
+     * @param e current rendered set of enemies */
     public void enemyHit (Invaders e) {
         //boolean hit = false;
         DelayedRemovalArray<Enemy> dr = e.invaders;
@@ -288,7 +288,6 @@ public class Player {
             for (int d=0; d<ammo.size; d++){
                 Ammunition b = ammo.get(d);
                 if (Intersector.overlapConvexPolygons(t.base, b.bounds)){
-                    //click.play();
                     if (!dr.get(a).destroyed){
                         if (soundToggle) click.play();
                         else click.play(0.0f);
@@ -359,22 +358,17 @@ public class Player {
     * Currently, the collision bounds is a tiny speckle on the screen, making it difficult to get hit. Due to the
     * current dimensions, the bounds will remain at this size for now. */
     public void render(ShapeRenderer renderer) {
-        renderer.setColor(PLAYER_STROKE);
         renderer.arc(pos.x, pos.y, 1f, 0, 360);
         renderer.setColor(PLAYER_COLOUR);
         renderer.set(ShapeType.Filled);
         renderer.circle(bounds.x, bounds.y, 10.f, 20);
-        //bullet
-        bl.render(renderer);
+        //bl.render(renderer);
     }
 
     /*
     * Release version: with images to support the collisions. */
     public void render(SpriteBatch batch) {
         actor.draw(batch);
-//        batch.draw(img, bounds.x, bounds.y, img.getWidth()/2f, img.getHeight()/2f,
-//                img.getWidth(), img.getHeight(), 1f, 1f, pos.angle(), 0, 0, img.getWidth(), img.getHeight(),
-//                false, false);
         batch.draw(defense, zone.x, zone.y, zone.width, zone.height);
         //To rotate any sprite (Stackoverflow.com)
         /*batch.draw(sprite,(Gdx.graphics.getWidth() - sprite.getRegionWidth()) / 2.0f,(Gdx.graphics.getHeight() - sprite.getRegionHeight()) / 2.0f,sprite.getRegionWidth()/2.0f,sprite.getRegionHeight()/2.0f, sprite.getRegionWidth(), sprite.getRegionHeight(), 1f, 1f,count, false);

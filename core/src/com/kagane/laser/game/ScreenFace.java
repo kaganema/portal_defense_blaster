@@ -35,12 +35,12 @@ public class ScreenFace extends InputAdapter implements Screen{
     // test this
     Background bg = new Background();
 
-    Player player; //OrthographicCamera camera;
+    private Player player; //OrthographicCamera camera;
 
     String aType;
 
     //Add enemy slots to the game
-    Invaders attackers;
+    private Invaders attackers;
 
     //Screen viewport for HUD.
     ScreenViewport vis;
@@ -48,7 +48,7 @@ public class ScreenFace extends InputAdapter implements Screen{
     SpriteBatch sBatch;
 
     BitmapFont font;
-    Sound over;
+    private Sound over;
 
     private Vector2 pb = new Vector2(5, 480f - 10f);
 
@@ -60,23 +60,6 @@ public class ScreenFace extends InputAdapter implements Screen{
         this.g = gb;
     }
 
-    /*public ScreenFace(GameRun gb, String ammotype) {
-        this.g = gb;
-        this.type = ammotype;
-    }*/
-
-    public ScreenFace(GameRun gb, String ammotype) {
-        this.g = gb;
-        viewport = new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        player = new Player(viewport, ammotype);
-    }
-
-    public ScreenFace(GameRun gb, int score, int life) {
-        this.g = gb;
-        viewport = new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        player = new Player(viewport,  score, life);
-        attackers = new Invaders(viewport);
-    }
 
     public ScreenFace(GameRun gb, int score, int life, boolean sound) {
         this.g = gb;
@@ -84,14 +67,6 @@ public class ScreenFace extends InputAdapter implements Screen{
         sTog = sound;
         player = new Player(viewport, score, life, sound);
         attackers = new Invaders(viewport, sound);
-    }
-
-    public ScreenFace(GameRun gb, String ammo, int score, int life, int enScore) {
-        this.g = gb;
-        this.aType = ammo;
-        viewport = new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        player = new Player(viewport, ammo, score, life);
-        attackers = new Invaders(viewport, enScore);
     }
 
     public ScreenFace(GameRun gb, String ammo, int score, int life, int enScore, boolean sound) {
@@ -105,8 +80,6 @@ public class ScreenFace extends InputAdapter implements Screen{
 
     @Override
     public void show() {
-        //viewport = new ExtendViewport(10.f, 10.f);
-        //viewport = new ExtendViewport(1.f, 1.f, 10.f, 10.f);
         //viewport = new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         //viewport = new ScreenViewport();
         //camera = new OrthographicCamera();
@@ -126,16 +99,8 @@ public class ScreenFace extends InputAdapter implements Screen{
         font = new BitmapFont();
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        //Create and set ship slots
-        //attackers = new Invaders(viewport);
-        //bulletShape = new Ammunition(viewport);
-
         over = Gdx.audio.newSound(Gdx.files.internal("game-over-rev.mp3"));
 
-    }
-
-    public void selectAmmo(String type) {
-        player = new Player(viewport, type);
     }
 
     @Override
@@ -157,13 +122,6 @@ public class ScreenFace extends InputAdapter implements Screen{
         viewport.apply();
         renderer.setProjectionMatrix(viewport.getCamera().combined);
         //renderer.begin(ShapeType.Filled);
-        //Tex render
-        //batch.draw(img, 0, 0);
-        //Enemy render
-        //player.render(renderer);
-        //attackers.render(renderer);
-       // bulletShape.render(renderer);
-        //renderer.setColor(Color.GRAY);
         //renderer.rect(2, viewport.getWorldHeight() - 25f, pb.x * 4.5f, pb.y * 5f);
         //renderer.end();
 
@@ -209,7 +167,7 @@ public class ScreenFace extends InputAdapter implements Screen{
     public void resume() {
         //Go to pause menu
         g.setScreen(new GameOption(g));
-        //g.setScreen(new GameOption(g, aType, player.getScore(), player.lifeCounter));
+        //g.setScreen(new GameOption(g, aType, player.getScore(), player.lifeCounter, attackers.invaded, sTog));
     }
 
     @Override
@@ -227,10 +185,6 @@ public class ScreenFace extends InputAdapter implements Screen{
         font.dispose();
         //img.dispose();
         over.dispose();
-    }
-
-    public SpriteBatch getsBatch() {
-        return sBatch;
     }
 
     /*

@@ -57,29 +57,10 @@ public class GameOption extends InputAdapter implements Screen {
         this.soundswitch = sound;
     }
 
-    public GameOption(GameRun game, ScreenFace paused) {
-        this.gameRun = game;
-        this.session = paused;
-    }
-
     /* Pass player score and current life as saved data from the game,
      * so that user can return to current gameplay unless they quit. */
-    public GameOption(GameRun game, ScreenFace paused, int score, int life) {
-        this.gameRun = game;
-        this.session = paused;
-        this.score = score;
-        this.life = life;
-    }
-
     public GameOption(GameRun game, int score, int life) {
         this.gameRun = game;
-        this.score = score;
-        this.life = life;
-    }
-
-    public GameOption(GameRun game, String value, int score, int life) {
-        this.gameRun = game;
-        this.ammoType = value;
         this.score = score;
         this.life = life;
     }
@@ -101,7 +82,7 @@ public class GameOption extends InputAdapter implements Screen {
         this.soundswitch = sound;
     }
 
-    void setSoundswitch(boolean toggle) {
+    public void setSoundswitch(boolean toggle) {
         this.soundswitch = toggle;
     }
 
@@ -109,11 +90,6 @@ public class GameOption extends InputAdapter implements Screen {
         return soundswitch;
     }
 
-    String switchOn(String s) {
-        if (soundswitch) s = "On";
-        else s = "Off";
-        return s;
-    }
 
     String switchOn(boolean t) {
         return t ? "On" : "Off";
@@ -153,9 +129,6 @@ public class GameOption extends InputAdapter implements Screen {
         shape.begin(ShapeType.Filled);
         shape.rect(snb.x, snb.y, width * 6f, height * 3f);
         shape.setColor(250, 250, 250, 0.6f);
-//        shape.rect(sb.x, sb.y, width * 2f, height * 3.3f);
-//        shape.rect(sr.x, sr.y, width * 4.3f, height * 9.5f);
-//        shape.rect(sl.x, sl.y, width * 2.2f, height * 9f);
         shape.rect(play.x, play.y, width * 10f, height * 3f);
         shape.rect(quit.x, quit.y, width * 10f, height * 3f);
         shape.end();
@@ -165,8 +138,6 @@ public class GameOption extends InputAdapter implements Screen {
         optFont.setColor(Color.GOLDENROD);
         // The glyph assists the fonts to be aligned consistently across all screen sizes.
         final GlyphLayout glyph = new GlyphLayout(optFont, "options");
-//        optFont.draw(batch, "Options", viewport.getScreenWidth()/2f, viewport.getScreenHeight()- glyph.height - 2f, 0,
-//                Align.center, false);
         optFont.draw(batch, "Options", viewport.getWorldWidth()/2f, viewport.getWorldHeight()- glyph.height - 2f, 0,
                 Align.center, false);
         optFont.draw(batch, "Sound: "+switchOn(soundswitch, soundTog), viewport.getWorldWidth()/2f, viewport.getWorldHeight()/1.3f - glyph.height,
@@ -184,7 +155,6 @@ public class GameOption extends InputAdapter implements Screen {
     @Override
     public void resize(int w, int h) {
         viewport.update(w, h, true);
-        //bg.resize(w, h);
         bg.resize();
     }
 
@@ -220,7 +190,6 @@ public class GameOption extends InputAdapter implements Screen {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Vector2 touch = viewport.unproject(new Vector2(screenX, screenY));
-        //if (touch.dst(sb) < width) gameRun.resumeGame(session);
         if (touch.dst(sb) < width * 2f) gameRun.setScreen(new ScreenFace(gameRun, "BULLET", score, life, enScore, isOn()));
         else if (touch.dst(sr) < width * 4.3f) gameRun.setScreen(new ScreenFace(gameRun, "ROCKET", score, life, enScore, isOn()));
         else if (touch.dst(sl) < width * 2.2f) gameRun.setScreen(new ScreenFace(gameRun, "LASER", score, life, enScore, isOn()));
@@ -233,7 +202,6 @@ public class GameOption extends InputAdapter implements Screen {
             if (soundswitch) setSoundswitch(false);
             else setSoundswitch(true);
         }
-        //return super.touchDown(screenX, screenY, pointer, button);
         return true;
     }
 }

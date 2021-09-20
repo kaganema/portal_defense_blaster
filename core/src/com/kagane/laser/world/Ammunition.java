@@ -10,47 +10,48 @@ import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.utils.TimeUtils;
 
+/**
+ * Class to represent a single instance of ammunition. The instance is configurable via the pause menu.
+ * Between lead bullet, rockets, or lasers.
+ * @author Emir Atik (kaganema)
+ * @version 1.0
+ * @since 1.0 2021-09-10 */
+
 public class Ammunition {
     // Position and origin point of bullet.
     Vector2 pos;
     // Updated movement of position.
-    Vector2 vel;
+    private  Vector2 vel;
     Vector2 angle;
     float deg;
-    String text;
-    FireType ammo;
+    private String text;
+    private FireType ammo;
 
     // Boundary shape surrounding the point.
     Polygon bounds;
-    //Texture img;
-    Texture img = new Texture("bullet.png");
     // Possible move to offset around the circle.
     static final float offset = 2.f;
-
-    private Sound trigger;
     Viewport viewport;
 
     /* Speed is one of the variables that is going to need the type of ammo that will travel. Using a "getType" from
     * the enum is suited for this. */
     static float speed = 5f;
     float spawnRate = 3f;
-    static final Vector2 ACCELERATION = new Vector2(0, speed);
    // static final Vector2 ACCELERATION = new Vector2(Gdx.input.getX() * speed, Gdx.input.getY() * speed);
-
-    private float[] points = {0, 1, 0, img.getHeight()/2f, img.getWidth()/2f, img.getHeight(),
-            img.getWidth(), img.getHeight()/2f, img.getWidth(), 1};
 
     public Ammunition(Viewport v) {
         this.viewport = v;
-        this.bounds = new Polygon(points);
-        this.bounds.setOrigin(img.getWidth()/2f, img.getHeight()/2f);
+        this.ammo = FireType.BULLET;
+        this.bounds = new Polygon(new float[] {0, 0, 0, ammo.img.getHeight(), ammo.img.getWidth(), 0});
+        this.bounds.setOrigin(ammo.img.getWidth()/2f, ammo.img.getHeight()/2f);
         init();
     }
 
     public Ammunition(float x, float y, float r) {
+        ammo = FireType.BULLET;
         //Set position on offset.
         pos = new Vector2(x, y);
-        bounds = new Polygon(points);
+        bounds = new Polygon(new float[] {0, 0, 0, ammo.img.getHeight(), ammo.img.getWidth(), 0});
         vel = new Vector2();
         //Position coordinates
         //pos.setAngle(r);
@@ -71,12 +72,16 @@ public class Ammunition {
         this.bounds.setRotation(vel.angle() - 90f);
         // Set the position to the player's location.
         //this.bounds.setPosition(x, y);
-        //this.bounds.setPosition(x+offset, y+offset);
         this.bounds.setPosition(pos.x, pos.y);
-        //this.bounds.setPosition(pos.x+offset, pos.y+offset);
         //v.unproject(new Vector2(v.getWorldWidth() - Gdx.input.getX(), v.getWorldHeight() - Gdx.input.getY()));
     }
 
+    /**
+     * Starts a new instance of a weapon to be fired.
+     * @param x position
+     * @param y position
+     * @param r start orientation of fire.
+     * @param type Argument to determine type of weapon, if not specified it's BULLET by default. */
     public Ammunition(float x, float y, float r, String type) {
         //Set position on offset.
         this.text = type;
@@ -89,7 +94,6 @@ public class Ammunition {
 
         bounds = new Polygon(new float[] {0, 0, 0, ammo.img.getHeight(), ammo.img.getWidth(), 0});
         //Position coordinates
-        //pos.setAngle(r);
         r = MathUtils.degreesToRadians * r;
         vel.x = MathUtils.cos(r) * ammo.fireRate;
         //MathUtils.roundPositive()
@@ -103,6 +107,13 @@ public class Ammunition {
         ammo.trigger.play();
     }
 
+    /**
+     * Starts a new instance of a weapon to be fired.
+     * @param x position
+     * @param y position
+     * @param r start orientation of fire.
+     * @param type Argument to determine type of weapon, if not specified it's BULLET by default.
+     * @param sound toggle */
     public Ammunition(float x, float y, float r, String type, boolean sound) {
         //Set position on offset.
         this.text = type;
@@ -115,13 +126,10 @@ public class Ammunition {
 
         bounds = new Polygon(new float[] {0, 0, 0, ammo.img.getHeight(), ammo.img.getWidth(), 0});
         //Position to fire from coordinates
-        //pos.setAngle(r);
         r = MathUtils.degreesToRadians * r;
         vel.x = MathUtils.cos(r) * ammo.fireRate;
         //MathUtils.roundPositive()
         vel.y = MathUtils.sin(r) * ammo.fireRate;
-
-        //this.bounds.setRotation(pos.angle());
         this.bounds.setRotation(vel.angle() - 90f);
         // Set the position to the player's location.
         this.bounds.setPosition(pos.x, pos.y);
@@ -146,10 +154,10 @@ public class Ammunition {
 
     public Ammunition(float x, float y) {
         pos = new Vector2(x, y);
-        bounds = new Polygon(points);
+        this.ammo = FireType.BULLET;
+        this.bounds = new Polygon(new float[] {0, 0, 0, ammo.img.getHeight(), ammo.img.getWidth(), 0});
         //this.bounds.setOrigin(x, y);
         this.bounds.setPosition(x, y);
-        //this.bounds.setRotation(r);
     }
 
     //Suggestion A
@@ -183,7 +191,6 @@ public class Ammunition {
     }
 
     public void init() {
-        //ACCELERATION.rotate(90f);
         //bounds.dirty();
         bounds.setRotation(90f);
     }
@@ -204,17 +211,8 @@ public class Ammunition {
         bounds.setPosition(posx, posy);
     }
 
-    public void init(float r) {
-        this.bounds.setRotation(r);
-    }
-
     public void update(float delta) {
         //Method 1
-//        pos.x *= speed * delta;
-//        pos.y *= speed * delta;
-        //pos.x += (delta * vel.x) * speed;
-        //pos.y += (delta * vel.y) * speed;
-        //vel.mulAdd(ACCELERATION, delta);
         vel.mulAdd(new Vector2(0, ammo.fireRate), delta);
         pos.mulAdd(vel, delta);
         pos.clamp(0, 15);
@@ -234,18 +232,15 @@ public class Ammunition {
 //        vel.y += dy;
         //viewport.unproject(new Vector2(Gdx.input.getDeltaX(), Gdx.input.getDeltaY()));
         //vel.sub(ACCELERATION).nor();
-        //v.unproject(new Vector2(v.getScreenWidth() - Gdx.input.getX(), v.getScreenHeight() - Gdx.input.getY()));
 
         // Vel in negative direction causes the bullets go upwards before getting deleted.
         bounds.translate(pos.x * vel.x, pos.y * vel.y);
-        //bounds.translate(dx, dy);
     }
 
     public void fireBullet(float x, float y) {
         float mouseAngle = 0.0f;
         float offset = 2f;
         Vector2 start = new Vector2(), dest = new Vector2();
-        //Gdx.input.getRotation();
         float angleRadian = MathUtils.degreesToRadians * mouseAngle;
         pos.x = MathUtils.cos(angleRadian);
         pos.y = MathUtils.sin(angleRadian);

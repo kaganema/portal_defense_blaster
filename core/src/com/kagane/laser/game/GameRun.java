@@ -1,7 +1,6 @@
 package com.kagane.laser.game;
 
 import com.badlogic.gdx.Game;
-//import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class GameRun extends Game {
 
@@ -35,18 +34,8 @@ public class GameRun extends Game {
 	    setScreen(new GameOption(this));
     }
 
-    /* Resume the game from the options menu */
-    public void resumeGame(ScreenFace sc) {
-        sc.show();
-    }
-
-    public void resume(GameOption sc) {
-        sc.resume();
-    }
-
 	/* Section to allow restarts after game is finished.
 	 * Pass in the success or fail result depending on outcome. */
-	public void endGame() {}
 
 	/* Return to main menu, ideally from pause menu. */
     public void quitGame(int playerScore) {

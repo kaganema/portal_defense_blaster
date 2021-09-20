@@ -85,16 +85,6 @@ public class Invaders {
         invaders.end();
     }
 
-
-    public void render(ShapeRenderer renderer) {
-        renderer.setColor(Color.RED);
-
-        //Render each invading ship
-        for (Enemy e: invaders) {
-            e.render(renderer);
-        }
-    }
-
     public void render(SpriteBatch batch) {
         for (Enemy e: invaders) {
             e.render(batch);

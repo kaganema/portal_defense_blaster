@@ -65,11 +65,6 @@ public class Explosion {
         //actor.draw(batch, 1.0f);
     }
 
-    public void activate(SpriteBatch batch, float del) {
-        explosion.draw(batch, del);
-        //actor.draw(batch, 1.0f);
-    }
-
     public void activate(SpriteBatch batch, boolean dest) {
         for (int o=particles.size-1; o>=0; --o){
             ParticleEffect e = particles.get(o);
