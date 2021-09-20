@@ -31,7 +31,7 @@ public class EndScreen extends InputAdapter implements Screen {
     private BitmapFont scoreFont;
 
     static final float SET_SCREEN_SIZE = 480f;
-    static final float buttonSize = 75.f;
+    private static final float buttonSize = 75.f;
 
     private static final Vector2 retry = new Vector2(480/4f, 480/3f);
     private static final Vector2 end = new Vector2(480/2f, 480/3f);
@@ -40,6 +40,8 @@ public class EndScreen extends InputAdapter implements Screen {
     private String result;
     //The highest score achieved in a session. (Future update?)
     float higest;
+
+    // TODO: Make a sound switch control that takes the value of the last known state.
 
     /* Get results data from the game. */
     // Pass player and get the score from the game, or pass score as argument in game screen.
@@ -56,7 +58,6 @@ public class EndScreen extends InputAdapter implements Screen {
         renderer = new ShapeRenderer();
         batch = new SpriteBatch();
 
-        //viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         viewport = new FitViewport(SET_SCREEN_SIZE, SET_SCREEN_SIZE);
         bg.bgStart(STAR_DENSITY);
 
@@ -125,7 +126,6 @@ public class EndScreen extends InputAdapter implements Screen {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Vector2 touch = viewport.unproject(new Vector2(screenX, screenY));
         if (touch.dst(retry) < buttonSize) go.startGame();
-        //if (touch.dst(end) > buttonSize) go.setScreen(new MainMenu(go, score));
         if (touch.dst(end) < buttonSize) go.quitGame(score);
         return true;
     }

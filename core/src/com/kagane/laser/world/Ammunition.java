@@ -31,7 +31,6 @@ public class Ammunition {
     Polygon bounds;
     // Possible move to offset around the circle.
     static final float offset = 2.f;
-    Viewport viewport;
 
     /* Speed is one of the variables that is going to need the type of ammo that will travel. Using a "getType" from
     * the enum is suited for this. */
@@ -39,13 +38,6 @@ public class Ammunition {
     float spawnRate = 3f;
    // static final Vector2 ACCELERATION = new Vector2(Gdx.input.getX() * speed, Gdx.input.getY() * speed);
 
-    public Ammunition(Viewport v) {
-        this.viewport = v;
-        this.ammo = FireType.BULLET;
-        this.bounds = new Polygon(new float[] {0, 0, 0, ammo.img.getHeight(), ammo.img.getWidth(), 0});
-        this.bounds.setOrigin(ammo.img.getWidth()/2f, ammo.img.getHeight()/2f);
-        init();
-    }
 
     public Ammunition(float x, float y, float r) {
         ammo = FireType.BULLET;
@@ -81,37 +73,6 @@ public class Ammunition {
      * @param x position
      * @param y position
      * @param r start orientation of fire.
-     * @param type Argument to determine type of weapon, if not specified it's BULLET by default. */
-    public Ammunition(float x, float y, float r, String type) {
-        //Set position on offset.
-        this.text = type;
-        pos = new Vector2(x, y);
-        vel = new Vector2();
-
-        // Find and get ammo type
-        if (type != null) ammo = FireType.valueOf(type);
-        else ammo = FireType.BULLET;
-
-        bounds = new Polygon(new float[] {0, 0, 0, ammo.img.getHeight(), ammo.img.getWidth(), 0});
-        //Position coordinates
-        r = MathUtils.degreesToRadians * r;
-        vel.x = MathUtils.cos(r) * ammo.fireRate;
-        //MathUtils.roundPositive()
-        vel.y = MathUtils.sin(r) * ammo.fireRate;
-
-        //this.bounds.setRotation(pos.angle());
-        this.bounds.setRotation(vel.angle() - 90f);
-        // Set the position to the player's location.
-        this.bounds.setPosition(pos.x, pos.y);
-        ammo.trigger.setLooping(0, false);
-        ammo.trigger.play();
-    }
-
-    /**
-     * Starts a new instance of a weapon to be fired.
-     * @param x position
-     * @param y position
-     * @param r start orientation of fire.
      * @param type Argument to determine type of weapon, if not specified it's BULLET by default.
      * @param sound toggle */
     public Ammunition(float x, float y, float r, String type, boolean sound) {
@@ -137,57 +98,6 @@ public class Ammunition {
         if (sound)
         ammo.trigger.play();
         else ammo.trigger.play(0.0f);
-    }
-
-    public Ammunition(Vector2 start, Vector2 pos) {
-        this.pos = start;
-        //init(dir, rotation);
-        viewport.unproject(start);
-    }
-
-    public Ammunition(Vector2 start, Vector2 dir, int rotation) {
-        this.bounds.setRotation(rotation);
-        //this.pos = start;
-        this.pos = start;
-        moveToOffset(this.pos);
-    }
-
-    public Ammunition(float x, float y) {
-        pos = new Vector2(x, y);
-        this.ammo = FireType.BULLET;
-        this.bounds = new Polygon(new float[] {0, 0, 0, ammo.img.getHeight(), ammo.img.getWidth(), 0});
-        //this.bounds.setOrigin(x, y);
-        this.bounds.setPosition(x, y);
-    }
-
-    //Suggestion A
-    public Ammunition(float rot) {
-        pos = new Vector2();
-        angle.rotate(rot);
-    }
-
-    public Ammunition(float x, float y, float angle, Vector2 dest) {
-        this.angle.rotate(angle);
-        this.pos = new Vector2(x, y);
-        this.angle.rotateAround(pos, angle);
-        init(this.pos, dest);
-    }
-
-    /*Get start point from ship location. */
-    public Ammunition(Vector2 vec) {
-        pos = vec;
-    }
-
-    void moveToOffset(Vector2 org) {
-        //Option 1
-        org.x += offset;
-        org.y += offset;
-        //Option 2
-        //org.set(org.x, org.y);
-        org.set(org.x * org.x, org.y * org.y);
-        //Option 3
-        org.x *= org.x;
-        org.y *= org.y;
     }
 
     public void init() {

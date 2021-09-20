@@ -18,15 +18,14 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
 public class GameOption extends InputAdapter implements Screen {
     public final static String TAG = GameOption.class.getName();
-    GameRun gameRun; ScreenFace session;
-    MainMenu menu;
+    GameRun gameRun;
 
     private static final float STAR_DENSITY = 0.03f;
     Background bg = new Background();
 
     ShapeRenderer shape;
     SpriteBatch batch;
-    FitViewport viewport;
+    private FitViewport viewport;
 
     private final static Vector2 snb = new Vector2(480/2.6f, 480/1.44f);
     private final static Vector2 sb = new Vector2(480/3f, 480/2.5f);
@@ -36,7 +35,7 @@ public class GameOption extends InputAdapter implements Screen {
     private final static Vector2 quit = new Vector2(480/2.5f, 480/7f);
     private final static float width = 10f, height = 10f;
 
-    BitmapFont optFont;
+    private BitmapFont optFont;
     Texture lead, rocket, laser;
     private boolean soundswitch;
     int score;
@@ -57,22 +56,22 @@ public class GameOption extends InputAdapter implements Screen {
         this.soundswitch = sound;
     }
 
-    /* Pass player score and current life as saved data from the game,
-     * so that user can return to current gameplay unless they quit. */
-    public GameOption(GameRun game, int score, int life) {
+    /*public GameOption(GameRun game, int score, int life) {
         this.gameRun = game;
         this.score = score;
         this.life = life;
-    }
+    }*/
 
-    public GameOption(GameRun game, String value, int score, int life, int attackers) {
+    /*public GameOption(GameRun game, String value, int score, int life, int attackers) {
         this.gameRun = game;
         this.ammoType = value;
         this.score = score;
         this.life = life;
         this.enScore = attackers;
-    }
+    }*/
 
+    /* Pass player score and current life as saved data from the game,
+     * so that user can return to current gameplay unless they quit. */
     public GameOption(GameRun game, String value, int score, int life, int attackers, boolean sound) {
         this.gameRun = game;
         this.ammoType = value;

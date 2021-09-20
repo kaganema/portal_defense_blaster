@@ -30,17 +30,16 @@ public class Player {
     private static final float MAX_SPEED = 500.f;
     private static final float radius = 0.7f;
     long fireTime = 10000;
-    float tick;
+    private float tick;
     long lastTime;
 
     Viewport viewport;
     private Vector2 pos;
-    Circle bounds;
+    private Circle bounds;
     SpriteBatch batch;
     private Texture img;
     Texture defense;
     Rectangle zone;
-    Ammunition bl;
     private DelayedRemovalArray<Ammunition> ammo;
     private Sprite actor;
     //GestureDetector gest;
@@ -173,11 +172,13 @@ public class Player {
         //actor.setRotation(actor.getRotation() + delta);
         actor.rotate(turn);
         tick -= delta;
+        //Ammunition bl;
         if (Gdx.input.isTouched() && tick <= 0.1){
             //bullet fire
+            //Ammunition bl
             //Gdx.input.getX() - pos.x, Gdx.input.getY() - pos.y
             //viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
-            bl = new Ammunition(pos.x, pos.y, actor.getRotation(), ammunition, soundToggle);
+            Ammunition bl = new Ammunition(pos.x, pos.y, actor.getRotation(), ammunition, soundToggle);
             /*bl = new Ammunition(pos.x, pos.y, MathUtils.atan2(Gdx.input.getY() - actor.getY(),
                     Gdx.input.getX() - actor.getX()) * (180/MathUtils.PI2))*///;
             ammo.add(bl);
@@ -215,12 +216,12 @@ public class Player {
         screenBounds();
     }
 
-    /**
+    /*
      * Initial control configuration for the player, where character is moving in directions.
      * */
     //public void configureA() {}
 
-    /**
+    /*
      * Alternative control configurations, with variation of rotating.
      */
     //public void configureB() {}
@@ -235,12 +236,12 @@ public class Player {
         if (pos.x - radius < 0){
             pos.x = radius;
         }
-        /*if (pos.x + radius > viewport.getWorldWidth()) {
+        if (pos.x + radius > viewport.getWorldWidth()) {
             pos.x = viewport.getWorldWidth() - radius;
-        }*/
-        if (pos.x + actor.getWidth() > viewport.getScreenWidth()) {
-            pos.x = viewport.getScreenWidth() - img.getWidth();
         }
+        /*if (pos.x + actor.getWidth() > viewport.getScreenWidth()) {
+            pos.x = viewport.getScreenWidth() - img.getWidth();
+        }*/
         if (pos.y - radius < 0) {
             pos.y = radius;
         }
@@ -279,7 +280,6 @@ public class Player {
      * Activate score and destroy enemy as threat if it does.
      * @param e current rendered set of enemies */
     public void enemyHit (Invaders e) {
-        //boolean hit = false;
         DelayedRemovalArray<Enemy> dr = e.invaders;
         dr.begin();
         ammo.begin();
@@ -302,9 +302,8 @@ public class Player {
         ammo.end();
     }
 
-
     /*
-    * When the player gets hit (at least by the enemy ship itself.)
+    * When the player gets hit (by the enemy ship itself or its debris)
     * */
     public boolean gotHit(Invaders inv) {
         boolean isHit = false;
@@ -318,6 +317,8 @@ public class Player {
                 lifeCounter--;
             }
         }
+        /* If an enemy makes it to the portal without getting destroyed.
+        * The enemies gain a point. Free space once they pass the map borders. */
         inv.invaders.begin();
         for (int a=0; a<inv.invaders.size; a++) {
             if (Intersector.overlapConvexPolygons(inv.invaders.get(a).base, p)){
@@ -334,20 +335,6 @@ public class Player {
         return isHit;
     }
 
-    public boolean touchDown(int sx, int sy, int pointer, int button) {
-        Vector2 startPos = viewport.unproject(new Vector2(sx, sy));
-        Vector2 renderPos = new Vector2();
-        renderPos.sub(startPos);
-        return true;
-    }
-
-    public boolean touchDown(int sx, int sy, int pointer, int button, Vector2 pos) {
-        Vector2 startPos = viewport.unproject(new Vector2(sx, sy));
-        Vector2 renderPos = new Vector2(pos);
-        renderPos.sub(startPos);
-        return true;
-    }
-
     // Public Getters
     public int getScore() {
         return score;
@@ -362,7 +349,6 @@ public class Player {
         renderer.setColor(PLAYER_COLOUR);
         renderer.set(ShapeType.Filled);
         renderer.circle(bounds.x, bounds.y, 10.f, 20);
-        //bl.render(renderer);
     }
 
     /*
@@ -371,8 +357,8 @@ public class Player {
         actor.draw(batch);
         batch.draw(defense, zone.x, zone.y, zone.width, zone.height);
         //To rotate any sprite (Stackoverflow.com)
-        /*batch.draw(sprite,(Gdx.graphics.getWidth() - sprite.getRegionWidth()) / 2.0f,(Gdx.graphics.getHeight() - sprite.getRegionHeight()) / 2.0f,sprite.getRegionWidth()/2.0f,sprite.getRegionHeight()/2.0f, sprite.getRegionWidth(), sprite.getRegionHeight(), 1f, 1f,count, false);
-        if(count < 0.0f)
+        //batch.draw(sprite,(Gdx.graphics.getWidth() - sprite.getRegionWidth()) / 2.0f,(Gdx.graphics.getHeight() - sprite.getRegionHeight()) / 2.0f,sprite.getRegionWidth()/2.0f,sprite.getRegionHeight()/2.0f, sprite.getRegionWidth(), sprite.getRegionHeight(), 1f, 1f,count, false);
+        /*if(count < 0.0f)
             count = 360.0f;
         else
             count --;*/
