@@ -17,6 +17,7 @@ Notes: The ship is currently a bit slow on the rotation, so there will be a dela
 
 ## Future additions
 * A time limit to indicate how long for the mission to finish after a certain period playing, where the winner depends on who has the higher points. (If the player dies before that it's game over by default.)
+* A possibility of enemies being able to fire lasers.
 
 ## Where to get the runnable game?
 TBA
