@@ -21,7 +21,7 @@ public class Ammunition {
     // Position and origin point of bullet.
     Vector2 pos;
     // Updated movement of position.
-    private  Vector2 vel;
+    private Vector2 vel;
     Vector2 angle;
     float deg;
     private String text;
@@ -30,13 +30,9 @@ public class Ammunition {
     // Boundary shape surrounding the point.
     Polygon bounds;
     // Possible move to offset around the circle.
-    static final float offset = 2.f;
-
-    /* Speed is one of the variables that is going to need the type of ammo that will travel. Using a "getType" from
-    * the enum is suited for this. */
-    static float speed = 5f;
-    float spawnRate = 3f;
-   // static final Vector2 ACCELERATION = new Vector2(Gdx.input.getX() * speed, Gdx.input.getY() * speed);
+    //static final float offset = 2.f;
+    //private float spawnDifference = 3f;
+   // static final Vector2 ACCELERATION = new Vector2(Gdx.input.getX() * ammo.fireRate, Gdx.input.getY() * ammo.fireRate);
 
 
     public Ammunition(float x, float y, float r) {
@@ -48,13 +44,9 @@ public class Ammunition {
         //Position coordinates
         //pos.setAngle(r);
         r = MathUtils.degreesToRadians * r;
-        //pos.x = MathUtils.cos(r) * speed;
-        //pos.y = MathUtils.sin(r) * speed;
-        //pos.x = MathUtils.cos(r) * speed;
-        //pos.y = MathUtils.sin(r) * speed;
-        vel.x = MathUtils.cos(r) * speed;
+        vel.x = MathUtils.cos(r) * ammo.fireRate;
         //MathUtils.roundPositive()
-        vel.y = MathUtils.sin(r) * speed;
+        vel.y = MathUtils.sin(r) * ammo.fireRate;
 
         //this.bounds.setOrigin(x, y);
         //if (r < 0) r = 360 - -(r);
@@ -100,27 +92,6 @@ public class Ammunition {
         else ammo.trigger.play(0.0f);
     }
 
-    public void init() {
-        //bounds.dirty();
-        bounds.setRotation(90f);
-    }
-
-    /*
-    * Fire from position of the player.
-    * @param org position to spawn bullet.
-     * @param dir of where the player clicked in space (but can pass that)*/
-    public void init(Vector2 org, Vector2 dir) {
-        org.angleRad(dir);
-        bounds.getRotation();
-        //Use setRotation instead of rotate
-        // Dir: getScreenX/Y
-        float posx = org.x - dir.x;
-        float posy = org.y - dir.y;
-        pos.set(posx, posy);
-        //bounds.setPosition(pos.x, pos.y);
-        bounds.setPosition(posx, posy);
-    }
-
     public void update(float delta) {
         //Method 1
         vel.mulAdd(new Vector2(0, ammo.fireRate), delta);
@@ -147,19 +118,6 @@ public class Ammunition {
         bounds.translate(pos.x * vel.x, pos.y * vel.y);
     }
 
-    public void fireBullet(float x, float y) {
-        float mouseAngle = 0.0f;
-        float offset = 2f;
-        Vector2 start = new Vector2(), dest = new Vector2();
-        float angleRadian = MathUtils.degreesToRadians * mouseAngle;
-        pos.x = MathUtils.cos(angleRadian);
-        pos.y = MathUtils.sin(angleRadian);
-        pos.x = start.x + (dest.x * offset);
-        pos.y = start.y + (dest.y * offset);
-        angle.angleRad(new Vector2(x, y));
-        bounds.getRotation();
-    }
-
     /* For test purposes only:
      * Get the origins points of the bounds for debug print. */
     public float getX() {
@@ -171,11 +129,10 @@ public class Ammunition {
     }
 
     // For debug and visualisation
-    public void render(ShapeRenderer renderer) {
+    /*public void render(ShapeRenderer renderer) {
         renderer.set(ShapeRenderer.ShapeType.Line);
-        renderer.circle(bounds.getOriginX(), bounds.getOriginY(), 1f);
         renderer.polygon(bounds.getTransformedVertices());
-    }
+    }*/
 
     // Draw the images
     public void render(SpriteBatch batch) {

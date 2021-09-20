@@ -226,7 +226,6 @@ public class Player {
      */
     //public void configureB() {}
 
-
     /*
     * Don't move off screen */
     private void screenBounds() {
@@ -344,12 +343,12 @@ public class Player {
     * Debug drawing method, using Shapes
     * Currently, the collision bounds is a tiny speckle on the screen, making it difficult to get hit. Due to the
     * current dimensions, the bounds will remain at this size for now. */
-    public void render(ShapeRenderer renderer) {
+    /*public void render(ShapeRenderer renderer) {
         renderer.arc(pos.x, pos.y, 1f, 0, 360);
         renderer.setColor(PLAYER_COLOUR);
         renderer.set(ShapeType.Filled);
         renderer.circle(bounds.x, bounds.y, 10.f, 20);
-    }
+    }*/
 
     /*
     * Release version: with images to support the collisions. */
@@ -371,8 +370,8 @@ public class Player {
         }
     }
 
-    public void dispose() {
+    /*public void dispose() {
         img.dispose();
         click.dispose();
-    }
+    }*/
 }
