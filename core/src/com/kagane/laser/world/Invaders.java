@@ -9,8 +9,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
 * A set of enemies to be spawned per round / level.
-* Author: @Emir Atik (kaganema)
-* Version: 1.0 */
+* Author: Emir Atik (kaganema)
+* @version 1.0*/
 
 public class Invaders {
     public static final String TAG = Invaders.class.getName();
