@@ -13,7 +13,7 @@ Arrow keys to move around the map.
 Left mouse to fire.
 Pointer to rotate/aim.
 
-Notes: The ship is currently a bit slow on the rotation, so there will be a delay of getting the bullets to fire in the direction you are trying fire at, although I did fix the movement speed so that should ease the problem. There is also a bug (I can't be bothered to fix it's been five months too long!) where the projectiles curve in to the direction of the pointer and don't always get deleted quickly enough so whenever you fire towards the bottom of the screen you will likely get some projectiles to fire back up before deletion (don't worry they won't hurt you though).
+Notes: The ship is currently a bit slow on the rotation, so there will be a delay of getting the bullets to fire in the direction you are trying fire at, although I did fix the movement speed so that should ease the problem. There is also a bug where the projectiles curve in to the direction of the pointer and don't always get deleted quickly enough so whenever you fire towards the bottom of the screen you will likely get some projectiles to fire back up before deletion (they won't hurt the player but could still damage enemies).
 
 ## Future additions
 * A time limit to indicate how long for the mission to finish after a certain period playing, where the winner depends on who has the higher points. (If the player dies before that it's game over by default.)
