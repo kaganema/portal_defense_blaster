@@ -163,6 +163,8 @@ public class Player {
         bounds.y = pos.y;
         actor.setCenter(bounds.x, bounds.y);
         //actor.setBounds(bounds.x, bounds.y, bounds.x, bounds.y);
+        
+        // We want the player ship to rotate to the orientation of where the user input is located.
         //float turn = MathUtils.atan2((Gdx.graphics.getHeight() - Gdx.input.getY()) - pos.y, Gdx.input.getX() - pos.x);
         float turn = MathUtils.atan2( Gdx.input.getY() - pos.y, Gdx.input.getX() - pos.x);
         //turn *= (180/MathUtils.PI2);
