@@ -20,7 +20,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 * Buttons to play the game and set sound.
 * A scoreboard displaying scores of the last game and best score of session. (if save feature is implemented,
 * then also a best score of all time for user.)
-* */
+* Author: Emir Atik (kaganema) */
 
 
 public class MainMenu extends InputAdapter implements Screen{
@@ -113,7 +113,7 @@ public class MainMenu extends InputAdapter implements Screen{
         menuFont.draw(batch, "Score: " + currentScore,
                 viewport.getWorldWidth()/2, viewport.getWorldHeight()-100, 0,
                 Align.center, false);
-        // Highest score
+        // TODO: Highest score
         // Start button
         final GlyphLayout opt1 = new GlyphLayout(menuFont, "Start");
         menuFont.draw(batch, "Start", stb.x + (opt1.width/2), stb.y + (opt1.height+2));
