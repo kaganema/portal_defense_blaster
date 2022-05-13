@@ -7,9 +7,10 @@ import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-/*
+/**
 * A set of enemies to be spawned per round / level.
-* */
+* Author: @Emir Atik (kaganema)
+* Version: 1.0 */
 
 public class Invaders {
     public static final String TAG = Invaders.class.getName();
@@ -58,6 +59,7 @@ public class Invaders {
     public void update(float delta) {
         //float HEIGHT = MathUtils.random() <= viewport.getWorldHeight()/2 ? 0 : viewport.getWorldHeight();
         //Vector2 updatePosition = new Vector2(MathUtils.random() * viewport.getWorldWidth(), HEIGHT);
+        
         /*Tip: If y valus is >= height, place shape randomly on x-axis up to width, do the same for the inverse, make sure the
         * shapes are pointing towards the player.*/
         if (MathUtils.random() < delta * spawnSec) {
