@@ -16,6 +16,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
+/* Settings class to the game. Switch sound, change ammo, or quit.
+Accessible from the main menu and pause menu. 
+Author: Emir Atik */
 public class GameOption extends InputAdapter implements Screen {
     public final static String TAG = GameOption.class.getName();
     GameRun gameRun;
