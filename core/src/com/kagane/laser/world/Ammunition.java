@@ -68,17 +68,19 @@ public class Ammunition {
      * @param type Argument to determine type of weapon, if not specified it's BULLET by default.
      * @param sound toggle */
     public Ammunition(float x, float y, float r, String type, boolean sound) {
-        //Set position on offset.
         this.text = type;
+        //Set position on offset.
+        //Position to fire from coordinates
         pos = new Vector2(x, y);
         vel = new Vector2();
 
-        // Find and get ammo type
+        // Find and get ammo type based on selection
         if (type != null) ammo = FireType.valueOf(type);
         else ammo = FireType.BULLET;
 
+        // Set collision bounds based on image shape.
         bounds = new Polygon(new float[] {0, 0, 0, ammo.img.getHeight(), ammo.img.getWidth(), 0});
-        //Position to fire from coordinates
+        // Set angle to fire from.
         r = MathUtils.degreesToRadians * r;
         vel.x = MathUtils.cos(r) * ammo.fireRate;
         //MathUtils.roundPositive()
