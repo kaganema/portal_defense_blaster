@@ -13,10 +13,16 @@ public class GameRun extends Game {
 		setScreen(new ScreenFace(this));
 	}*/
 
+	/*
+	Start the game with defaults.
+	*/
 	public void startGame() {
 		setScreen(new ScreenFace(this, 0, 5, false));
 	}
 
+	/*
+	Start the game with changes from the options menu.
+	*/
     public void startGame(boolean s) {
         setScreen(new ScreenFace(this, 0, 5, s));
     }
