@@ -20,7 +20,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.kagane.laser.world.*;
 
 /* The gameplay screen that loads all the content from world.
-*  */
+* Author: Emir Atik (kaganema) */
 
 public class ScreenFace extends InputAdapter implements Screen{
     public static final String TAG = ScreenFace.class.getName();
@@ -31,12 +31,13 @@ public class ScreenFace extends InputAdapter implements Screen{
     ExtendViewport viewport;
     //ScreenViewport viewport;
     ShapeRenderer renderer;
-
-    // test this
+    
+    // A background instance.
     Background bg = new Background();
 
     private Player player; //OrthographicCamera camera;
 
+    // Selected ammo type
     String aType;
 
     //Add enemy slots to the game
@@ -50,6 +51,8 @@ public class ScreenFace extends InputAdapter implements Screen{
     BitmapFont font;
     private Sound over;
 
+    /* Coordinates of the pause button that is used for detecting input.
+    This is not the same as the pause symbol that is there to be rendered. */ 
     private Vector2 pb = new Vector2(5, 480f - 10f);
 
 
@@ -60,7 +63,8 @@ public class ScreenFace extends InputAdapter implements Screen{
         this.g = gb;
     }
 
-
+    /* The instances of a game. I decided to move the viewport rendering into the constructor as that needs to be 
+    initialised before the actors in the level. */
     public ScreenFace(GameRun gb, int score, int life, boolean sound) {
         this.g = gb;
         viewport = new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -69,6 +73,8 @@ public class ScreenFace extends InputAdapter implements Screen{
         attackers = new Invaders(viewport, sound);
     }
 
+    /* The same constructor as above with the addition of a ammo type of the player's choice, usually selected from 
+    the options or pause menu. */
     public ScreenFace(GameRun gb, String ammo, int score, int life, int enScore, boolean sound) {
         this.g = gb;
         this.aType = ammo;
@@ -111,6 +117,7 @@ public class ScreenFace extends InputAdapter implements Screen{
         //camera.update();
         attackers.update(delta);
         player.update(delta);
+        // If the bounds (not the sprites) of the player and enemy collides, drop a life.
         if (player.gotHit(attackers)) {
             // If player dies, it's game over.
             if (player.lifeCounter < 0) {
@@ -145,7 +152,6 @@ public class ScreenFace extends InputAdapter implements Screen{
         //camera.setToOrtho(false, width, height);
         viewport.update(width, height, true);
         vis.update(width, height, true);
-        //font.getData().setScale(Math.min(width, height) / 500.f);
         font.getData().setScale(Math.min(width, height) / 410.f);
 
         bg.bgStart(STAR_DENSITY);
@@ -188,7 +194,7 @@ public class ScreenFace extends InputAdapter implements Screen{
     }
 
     /*
-     * Load pause menu when this button is hit. */
+     * Load pause menu when this button is touched. */
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Vector2 touch = viewport.unproject(new Vector2(screenX, screenY));
         // Touch on pause button.
